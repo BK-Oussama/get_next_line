@@ -1,0 +1,21 @@
+
+
+
+	bufsize for this example will be 3
+	
+	ghadi nft7o lfile
+	
+	ghadi nqraw 3 charcters
+	
+	daxi li qrina ghadi ykon f wahed buf
+	
+	neqdro n check buffer wash fih '\n' or '\0'
+	
+	IF: ila kano fiho ghadi n3yto l substr
+	IF: ila maknch fih ghadi n3yto lstrjoin
+		strjoin katkhdem juj str
+		we f cas 0, kaykono 3endna juj str, wa7ed baqi khawi, dak li khawikan7to fih
+		substr li endna ola buff kima huwa.
+	knbqaw neqraw 7ta kanlqaw '\0' or '\n' or EOF.
+	kmlna kan return new_joined_str.
+	
