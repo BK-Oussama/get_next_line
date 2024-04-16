@@ -6,7 +6,7 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:38:24 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/15 20:10:07 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:10:14 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 # define BUFFER_SIZE 3
+#include<string.h>
 
 size_t	ft_strlen(const char *s)
 {
@@ -30,26 +31,6 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strdup(const char *str)
-{
-	size_t	len;
-	char	*ptr;
-	size_t	i;
-
-	len = ft_strlen(str);
-	ptr = malloc((len + 1) * (sizeof(char)));
-	if (ptr == NULL)
-		return (NULL);
-	i = 0;
-	while (str[i])
-	{
-		ptr[i] = str[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
-
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	j;
@@ -58,7 +39,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = 0;
 	if (s == NULL)
-		return (ft_strdup(""));
+		return (strdup(""));
 	j = ft_strlen(s);
 	while (i + start < j && i < len)
 		i++;
@@ -160,28 +141,35 @@ char	*ft_strjoin(const char *s1, const char *s2)
 char	*get_next_line(int fd)
 {
 	static char		*reads;
-	char			buffer[BUFFER_SIZE];
+	char			buffer[BUFFER_SIZE + 1];
 	ssize_t			rd;
-	unsigned int	i;
+	unsigned int		i;
 	char			*valid_line;
 
 	if (-1 == fd)	// in case open() fail to return a valid FD!
 		return (NULL);
 
-	rd = read(fd, buffer, BUFFER_SIZE + 1);
+	rd = read(fd, buffer, BUFFER_SIZE);
 	if (rd <= 0)	// end of file has reached || or error occured while using read()!!
 		return (NULL);
+	
 	if (rd > 0)
-		valid_line = ft_strdup(buffer);
+	{
+		buffer[rd] = '\0';
+		valid_line = strdup(buffer);
+	}
 	i = 0;
 	while (valid_line[i])
 	{
-		if ((valid_line[i] != '\0' || valid_line[i] != '\n'))
-			i++;
-		else
+		if ((valid_line[i] == '\0' || valid_line[i] == '\n'))
+		{
 			valid_line = ft_substr(valid_line, 0, i);
+			break;
+		}
+		i++;
 	}
 	reads = ft_strjoin(reads, valid_line);
+	free(valid_line);
 	return (reads);
 }
 
