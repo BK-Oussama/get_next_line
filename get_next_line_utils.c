@@ -6,7 +6,7 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:56:55 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/17 17:29:05 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/18 22:49:42 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,34 +119,34 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 
 // mhrima strjoin
 
-char *ft_strjoin(char *left, char *right)
-{
-    char *res = NULL;
-    size_t len = 0;
-    if (!left && !right)
-        return NULL;
-    if (left)
-        len = strlen(left);
-    if (right)
-        len += strlen(right);
-    res = calloc(len + 1, sizeof(char));
-    left && strcpy(res, left);
-    right && strcpy(res + strlen(res), right);
-    return res;
-}
-
-// char	*ft_strjoin(const char *s1, const char *s2)
+// char *ft_strjoin(char *left, char *right)
 // {
-// 	size_t	len;
-// 	char	*str;
-
-// 	if (s1 == NULL || s2 == NULL)
-// 		return (NULL);
-// 	len = ft_strlen(s1) + ft_strlen(s2);
-// 	str = malloc((len + 1) * sizeof(char));
-// 	if (str == NULL)
-// 		return (NULL);
-// 	ft_strlcpy(str, s1, len + 1);
-// 	ft_strlcat(str, s2, len + 1);
-// 	return (str);
+//     char *res = NULL;
+//     size_t len = 0;
+//     if (!left && !right)
+//         return NULL;
+//     if (left)
+//         len = strlen(left);
+//     if (right)
+//         len += strlen(right);
+//     res = calloc(len + 1, sizeof(char));
+//     left && strcpy(res, left);
+//     right && strcpy(res + strlen(res), right);
+//     return res;
 // }
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+	size_t	len;
+	char	*str;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	str = malloc((len + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	ft_strlcpy(str, s1, len + 1);
+	ft_strlcat(str, s2, len + 1);
+	return (str);
+}
