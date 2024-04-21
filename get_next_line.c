@@ -6,7 +6,7 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:38:24 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/21 18:29:26 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/21 20:47:03 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define BUFFER_SIZE 50
+#define BUFFER_SIZE 4
 
 char	*get_next_line(int fd)
 {
 	static char	*where_read_stops = NULL;
 	char		*line;
 	char		*temp;
-	char		buffer[BUFFER_SIZE];
+	char		*buffer;
 	ssize_t		read_bytes;
-
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+
+	buffer = malloc(sizeof(char) * ((size_t )BUFFER_SIZE + 1));
+	if (!buffer)
+		return NULL;
 	if (!where_read_stops)
 		where_read_stops = ft_strdup("");
 
@@ -42,11 +45,8 @@ char	*get_next_line(int fd)
 		read_bytes = read(fd, buffer, BUFFER_SIZE);	
 	}
 
-	if (read_bytes < 0 || !*where_read_stops)
-	{
-		
-		return (free(where_read_stops), NULL); // Error or end of file reached
-	}
+	if (read_bytes < 0 ||  !*where_read_stops)
+		return (free(where_read_stops), free(buffer), NULL); // Error or end of file reached
 	
 	// Extract line from where_read_stops
 	line = NULL;
@@ -68,5 +68,6 @@ char	*get_next_line(int fd)
 		free(where_read_stops);
 		where_read_stops = NULL;
 	}
+	free(buffer);
 	return (line);
 }
