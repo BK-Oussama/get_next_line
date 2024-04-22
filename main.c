@@ -17,8 +17,9 @@ int	main(void)
 	int		fd;
 	char	*new_line;
 	int		count;
-	int i = 0;
+	int		i;
 
+	i = 0;
 	count = 0;
 	fd = open("file.txt", O_RDONLY);
 	while (i < 3)
