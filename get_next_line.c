@@ -6,7 +6,7 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:38:24 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/21 20:47:03 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/22 02:34:48 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,61 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define BUFFER_SIZE 4
+#define BUFFER_SIZE 15
 
-char	*get_next_line(int fd)
+char *ft_get_buffer(int fd, char *str)
 {
-	static char	*where_read_stops = NULL;
-	char		*line;
-	char		*temp;
-	char		*buffer;
-	ssize_t		read_bytes;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-
+	char *buffer;
+	ssize_t read_bytes;
+	char *tmp;
 	buffer = malloc(sizeof(char) * ((size_t )BUFFER_SIZE + 1));
 	if (!buffer)
 		return NULL;
-	if (!where_read_stops)
-		where_read_stops = ft_strdup("");
-
-	temp = NULL;
-	read_bytes = read(fd, buffer, BUFFER_SIZE);
-	while (read_bytes > 0)
+	read_bytes = 1;
+	while (read_bytes != 0 && !ft_strchr(str, '\n'))
 	{
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (read_bytes <= 0)
+			break;
 		buffer[read_bytes] = '\0'; // Ensure buffer is null-terminated
-		temp = where_read_stops;
-		where_read_stops = ft_strjoin(where_read_stops, buffer);
-		free(temp);
-		if (ft_strchr(buffer, '\n'))
-			break; // Stop reading if newline is found
-		read_bytes = read(fd, buffer, BUFFER_SIZE);	
+		tmp = str;
+		str = ft_strjoin(tmp, buffer);
+		free(tmp);
 	}
+	free(buffer);
+	if (read_bytes < 0)
+	{
+		free(str);
+		str = NULL;
+	}
+	return (str);
+}
 
-	if (read_bytes < 0 ||  !*where_read_stops)
-		return (free(where_read_stops), free(buffer), NULL); // Error or end of file reached
+// char *ft_get_line(char *str)
+// {
 	
-	// Extract line from where_read_stops
-	line = NULL;
+// }
+
+char	*get_next_line(int fd)
+{
+	static char	*where_read_stops;
+	char		*line;
+	char		*temp;
 	char		*newline_pos;
 	size_t		line_length;
+	
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	where_read_stops = ft_get_buffer(fd, where_read_stops);
+	if (where_read_stops == NULL)
+		return (NULL);
+	line = NULL;
 	newline_pos = ft_strchr(where_read_stops, '\n');
 	if (newline_pos)
 	{
-		line_length = newline_pos - where_read_stops;
+		line_length = (newline_pos - where_read_stops) + 1;
 		line = ft_substr(where_read_stops, 0, line_length);
-		char *temp = ft_strdup(newline_pos + 1);
-			// Save the remaining part for next call
+		temp = ft_strdup(newline_pos + 1);
 		free(where_read_stops);
 		where_read_stops = temp;
 	}
@@ -68,6 +78,5 @@ char	*get_next_line(int fd)
 		free(where_read_stops);
 		where_read_stops = NULL;
 	}
-	free(buffer);
 	return (line);
 }
