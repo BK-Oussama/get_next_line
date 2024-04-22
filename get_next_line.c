@@ -6,7 +6,7 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:38:24 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/22 02:34:48 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/22 02:56:09 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,39 +44,45 @@ char *ft_get_buffer(int fd, char *str)
 	return (str);
 }
 
-// char *ft_get_line(char *str)
-// {
+char *ft_get_line(char **str)
+{
+	char *new_line_postion;
+	char *valid_line;
+	size_t sub_line_lenght;
 	
-// }
+	new_line_postion = ft_strchr(*str, '\n');
+	valid_line = NULL;
+	if(new_line_postion)
+	{
+		sub_line_lenght = (size_t)(new_line_postion - *str) + 1;
+		valid_line = ft_substr(*str, 0, sub_line_lenght);
+		char *tmp = ft_strdup(new_line_postion + 1);
+		free(*str);
+		*str = tmp;
+	}
+	else
+	{
+		valid_line = ft_strdup(*str);
+		free (*str);
+		*str = NULL;
+	}
+	return (valid_line);
+}
 
 char	*get_next_line(int fd)
 {
 	static char	*where_read_stops;
 	char		*line;
-	char		*temp;
-	char		*newline_pos;
-	size_t		line_length;
-	
+		
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+		
 	where_read_stops = ft_get_buffer(fd, where_read_stops);
 	if (where_read_stops == NULL)
 		return (NULL);
-	line = NULL;
-	newline_pos = ft_strchr(where_read_stops, '\n');
-	if (newline_pos)
-	{
-		line_length = (newline_pos - where_read_stops) + 1;
-		line = ft_substr(where_read_stops, 0, line_length);
-		temp = ft_strdup(newline_pos + 1);
-		free(where_read_stops);
-		where_read_stops = temp;
-	}
-	else
-	{
-		line = ft_strdup(where_read_stops);
-		free(where_read_stops);
-		where_read_stops = NULL;
-	}
-	return (line);
+
+	line = ft_get_line(&where_read_stops);
+	return (line);	
+
 }
+
