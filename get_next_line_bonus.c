@@ -6,13 +6,13 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 03:36:47 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/22 03:37:58 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:32:50 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*ft_get_buffer(int fd, char *str)
+char	*read_file(int fd, char *str)
 {
 	char	*buffer;
 	ssize_t	read_bytes;
@@ -41,7 +41,7 @@ char	*ft_get_buffer(int fd, char *str)
 	return (str);
 }
 
-char	*ft_get_line(char **str)
+char	*extract_line(char **str)
 {
 	char	*new_line_postion;
 	char	*valid_line;
@@ -67,16 +67,16 @@ char	*ft_get_line(char **str)
 	return (valid_line);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line_bonus(int fd)
 {
 	static char	*where_read_stops;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	where_read_stops = ft_get_buffer(fd, where_read_stops);
+	where_read_stops = read_file(fd, where_read_stops);
 	if (where_read_stops == NULL)
 		return (NULL);
-	line = ft_get_line(&where_read_stops);
+	line = extract_line(&where_read_stops);
 	return (line);
 }
