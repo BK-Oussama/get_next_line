@@ -6,7 +6,7 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 03:36:47 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/22 19:32:50 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/22 22:02:03 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,14 @@ char	*extract_line(char **str)
 
 char	*get_next_line_bonus(int fd)
 {
-	static char	*where_read_stops;
+	static char	*where_read_stops[OPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
 		return (NULL);
-	where_read_stops = read_file(fd, where_read_stops);
-	if (where_read_stops == NULL)
+	where_read_stops[fd] = read_file(fd, where_read_stops[fd]);
+	if (where_read_stops[fd] == NULL)
 		return (NULL);
-	line = extract_line(&where_read_stops);
+	line = extract_line(&where_read_stops[fd]);
 	return (line);
 }

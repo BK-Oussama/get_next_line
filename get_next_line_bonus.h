@@ -6,13 +6,14 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 03:52:31 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/22 03:52:36 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/22 21:55:25 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 # define BUFFER_SIZE 15
+# define OPEN_MAX 1024
 
 # include <fcntl.h>
 # include <stdio.h>
@@ -20,7 +21,7 @@
 # include <string.h>
 # include <unistd.h>
 
-char	*get_next_line(int fd);
+char	*get_next_line_bonus(int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
