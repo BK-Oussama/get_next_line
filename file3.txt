@@ -1,3 +1,0 @@
-+33first  line from file_3
-+33second line from file_3
-+33thrid line from file_3

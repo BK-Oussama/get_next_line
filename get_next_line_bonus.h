@@ -12,8 +12,12 @@
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
-# define BUFFER_SIZE 15
-# define OPEN_MAX 1024
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+# ifndef OPEN_MAX
+#  define OPEN_MAX 1024
+# endif
 
 # include <fcntl.h>
 # include <stdio.h>
@@ -21,7 +25,7 @@
 # include <string.h>
 # include <unistd.h>
 
-char	*get_next_line_bonus(int fd);
+char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);

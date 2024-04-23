@@ -32,13 +32,12 @@ char	*read_file(int fd, char *str)
 		str = ft_strjoin(tmp, buffer);
 		free(tmp);
 	}
-	free(buffer);
-	if (read_bytes < 0)
+	if (read_bytes < 0 || !str || ft_strlen(str) == 0)
 	{
 		free(str);
 		str = NULL;
 	}
-	return (str);
+	return (free(buffer), str);
 }
 
 char	*extract_line(char **str)

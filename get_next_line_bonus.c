@@ -33,7 +33,7 @@ char	*read_file(int fd, char *str)
 		free(tmp);
 	}
 	free(buffer);
-	if (read_bytes < 0)
+	if (read_bytes < 0 || !str || ft_strlen(str) == 0)
 	{
 		free(str);
 		str = NULL;
@@ -67,7 +67,7 @@ char	*extract_line(char **str)
 	return (valid_line);
 }
 
-char	*get_next_line_bonus(int fd)
+char	*get_next_line(int fd)
 {
 	static char	*where_read_stops[OPEN_MAX];
 	char		*line;

@@ -1,3 +1,0 @@
-***this line from file_1
-***second line from file_1
-***thrid line from file_1
