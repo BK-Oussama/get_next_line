@@ -6,12 +6,18 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:38:24 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/22 19:34:33 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:54:05 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+// Function: read_file
+// Description: Reads characters from a file descriptor into a string buffer.
+// Parameters:
+//   - fd: File descriptor to read from.
+//   - str: String buffer to store the read characters.
+// Return Value: A pointer to the updated string buffer.
 char	*read_file(int fd, char *str)
 {
 	char	*buffer;
@@ -40,6 +46,12 @@ char	*read_file(int fd, char *str)
 	return (free(buffer), str);
 }
 
+// Function: extract_line
+// Description: Extracts a line from the string buffer up to the newline character '\n'.
+// Parameters:
+//   - str: Pointer to the string buffer.
+// Return Value: A pointer to the extracted line.
+
 char	*extract_line(char **str)
 {
 	char	*new_line_postion;
@@ -65,6 +77,12 @@ char	*extract_line(char **str)
 	}
 	return (valid_line);
 }
+
+// Function: get_next_line
+// Description: Reads the next line from the file descriptor.
+// Parameters:
+//   - fd: File descriptor to read from.
+// Return Value: A pointer to the next line read from the file descriptor.
 
 char	*get_next_line(int fd)
 {
