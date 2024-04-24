@@ -6,7 +6,7 @@
 /*   By: ouboukou <ouboukou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:38:24 by ouboukou          #+#    #+#             */
-/*   Updated: 2024/04/24 23:54:05 by ouboukou         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:55:09 by ouboukou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*read_file(int fd, char *str)
 		str = ft_strjoin(tmp, buffer);
 		free(tmp);
 	}
-	if (read_bytes < 0 || !str || ft_strlen(str) == 0)
+	if (read_bytes < 0 || !str || ft_strlen(str) == 0) //This condition handles the case when the read function reaches the end-of-file (EOF). Within the loop above, we set the last character of the buffer to '\0' to ensure that it forms a valid null-terminated string.
 	{
 		free(str);
 		str = NULL;
